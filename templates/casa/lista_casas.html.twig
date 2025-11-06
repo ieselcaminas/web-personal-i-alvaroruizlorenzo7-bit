@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Casas en venta{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4 text-primary">🏠 Casas en venta</h1>
+
+    <div class="list-group">
+        {% for casa in casas %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>{{ casa.direccion }}</strong><br>
+                    <span class="text-muted">{{ casa.precio }} €</span>
+                </div>
+                <div>
+                    <a href="{{ path('detalle_casa', {id: casa.id}) }}" class="btn btn-sm btn-outline-info me-2">✏️ Editar</a>
+                    <form action="{{ path('borrar_casa', {id: casa.id}) }}" method="post" style="display:inline;" onsubmit="return confirm('¿Estás seguro de que quieres borrar esta casa?');">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">🗑️ Borrar</button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-warning">No hay casas disponibles en este momento.</div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ path('nueva_casa') }}" class="btn btn-success">➕ Añadir nueva casa</a>
+    </div>
+</div>
+{% endblock %}
