@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear usuario{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>🧑‍💻 Crear nuevo usuario</h1>
+{% set mensaje = app.flashes('success')|last %}
+{% if mensaje %}
+    <div class="alert alert-success">{{ mensaje }}</div>
+{% endif %}
+
+    {{ form_start(formulario) }}
+        {{ form_row(formulario.yes) }}
+        {{ form_row(formulario.password) }}
+        {{ form_row(formulario.crear) }}
+    {{ form_end(formulario) }}
+</div>
+{% endblock %}
