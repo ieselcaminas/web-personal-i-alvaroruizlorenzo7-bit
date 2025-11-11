@@ -11,10 +11,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class IndexController extends AbstractController
 {
 //-----------------------------------------------------------------------------------------LISTADO DE CASAS
-    #[Route('/', name: 'lista_casas')]
-    public function index(ManagerRegistry $doctrine): Response {
-       // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $casas = $doctrine->getRepository(Casa::class)->findAll();
-        return $this->render('casa/lista_casas.html.twig', ['casas' => $casas]);
-    }
+
+ #[Route('/', name: 'home')]
+        public function redirigirAlLogin(): Response
+        {
+             return $this->redirectToRoute('app_login');
+        }
+
+
 }

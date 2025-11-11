@@ -16,12 +16,22 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
   #[Route('/casas')]
 final class CasaController extends AbstractController
 {
+
+
+ #[Route('/lista_casa', name: 'lista_casas')]
+    public function index(ManagerRegistry $doctrine): Response {
+       $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $casas = $doctrine->getRepository(Casa::class)->findAll();
+        return $this->render('casa/lista_casas.html.twig', ['casas' => $casas]);
+    }
+
+
 //---------------------------------------------------------------------------------------BORRAR CASA
 #[Route('/casas/borrar/{id}', name: 'borrar_casa', methods: ['POST'])]
     public function borrar(Casa $casa, ManagerRegistry $doctrine): Response
     {
         // Requiere que el usuario esté autenticado
-        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         // Eliminar la casa
         $entityManager = $doctrine->getManager();
@@ -39,7 +49,7 @@ final class CasaController extends AbstractController
 //-------------------------------------------------------------------------------------------AÑADIR CASAS
     #[Route('/nueva', name: 'nueva_casa')]
     public function nueva(Request $request, ManagerRegistry $doctrine): Response {
-        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $casa = new Casa();
         $form = $this->createForm(CasaFormType::class, $casa);
         $form->handleRequest($request);
@@ -58,7 +68,7 @@ final class CasaController extends AbstractController
 
 #[Route('/{id}', name: 'detalle_casa')]
 public function detalle(Request $request, Casa $casa, ManagerRegistry $doctrine): Response {
-    // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
     $form = $this->createForm(CasaFormType::class, $casa);
     $form->handleRequest($request);
